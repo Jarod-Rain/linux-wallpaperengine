@@ -13,12 +13,13 @@ const WallpaperEngine::Data::Model::Color WallpaperEngine::Data::Builders::Color
 WallpaperEngine::Data::Model::Color
 WallpaperEngine::Data::Builders::ColorBuilder::parse (const std::string& value, float alpha) {
     auto copy = value;
-
+    
     // replace the actual separators with spaces to normalize them
     if (copy.find (',') != std::string::npos) {
 	// replace comma separator with spaces so it's
 	std::ranges::replace (copy, ',', ' ');
     }
+
 
     // hex colors should be converted to int colors
     if (copy.find ('#') == 0) {
@@ -53,13 +54,6 @@ WallpaperEngine::Data::Builders::ColorBuilder::parse (const std::string& value, 
 
     if (vectorSize != 3 && vectorSize != 4) {
 	throw std::invalid_argument ("Invalid color value");
-    }
-
-    if (copy.find ('.') == std::string::npos) {
-	const auto final = vectorSize == 3 ? glm::ivec4 (VectorBuilder::parse<glm::ivec3> (copy), alpha * 255)
-					   : VectorBuilder::parse<glm::ivec4> (copy);
-
-	return { final.r / 255.0f, final.g / 255.0f, final.b / 255.0f, final.a / 255.0f };
     }
 
     return Model::Color (
