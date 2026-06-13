@@ -417,7 +417,7 @@ void CText::render () {
     const float scene_h = getScene ().getCamera ().getHeight ();
     const glm::vec3 gl_origin = {
 	origin.x - scene_w * 0.5f,
-	origin.y - scene_h * 0.5f,
+	scene_h * 0.5f - origin.y,
 	origin.z,
     };
 
